@@ -1,15 +1,17 @@
 package com.daimajia.slider.library;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.daimajia.slider.library.Animations.BaseAnimationInterface;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -166,6 +168,7 @@ public class SliderLayout extends RelativeLayout{
         this(context,attrs,R.attr.SliderStyle);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public SliderLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
@@ -187,7 +190,7 @@ public class SliderLayout extends RelativeLayout{
         mSliderAdapter = new SliderAdapter(mContext);
         PagerAdapter wrappedAdapter = new InfinitePagerAdapter(mSliderAdapter);
 
-        mViewPager = (InfiniteViewPager)findViewById(R.id.daimajia_slider_viewpager);
+        mViewPager = findViewById(R.id.daimajia_slider_viewpager);
         mViewPager.setAdapter(wrappedAdapter);
 
         mViewPager.setOnTouchListener(new OnTouchListener() {
@@ -411,7 +414,7 @@ public class SliderLayout extends RelativeLayout{
 
         private final String name;
 
-        private Transformer(String s){
+        Transformer(String s){
             name = s;
         }
         public String toString(){
@@ -419,9 +422,9 @@ public class SliderLayout extends RelativeLayout{
         }
 
         public boolean equals(String other){
-            return (other == null)? false:name.equals(other);
+            return (other != null) && name.equals(other);
         }
-    };
+    }
 
     /**
      * set a preset viewpager transformer by id.
@@ -566,7 +569,7 @@ public class SliderLayout extends RelativeLayout{
 
         private final String name;
         private final int id;
-        private PresetIndicators(String name,int id){
+        PresetIndicators(String name, int id){
             this.name = name;
             this.id = id;
         }
@@ -580,7 +583,7 @@ public class SliderLayout extends RelativeLayout{
         }
     }
     public void setPresetIndicator(PresetIndicators presetIndicator){
-        PagerIndicator pagerIndicator = (PagerIndicator)findViewById(presetIndicator.getResourceId());
+        PagerIndicator pagerIndicator = findViewById(presetIndicator.getResourceId());
         setCustomIndicator(pagerIndicator);
     }
 
